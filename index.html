@@ -1,0 +1,95 @@
+<!doctype html>
+<html>
+<head>
+	<meta charset="utf-8">
+	<title>Play With Rabbit</title>
+	<link href="index5stylesheet.css" rel="stylesheet" type="text/css">
+	<link rel="preconnect" href="https://fonts.gstatic.com">
+	<link href="https://fonts.googleapis.com/css2?family=Overpass&display=swap" rel="stylesheet">
+</head>
+
+<body>
+	
+	<a href="https://yukihoshiqaq.github.io/index2/"><button class="next">Next</button></a>
+	<a href="https://yukihoshiqaq.github.io/spacebunny/"><button class="home">Home</button></a>
+	
+	<div class="txt">Feed the Rabbit~</div>
+	
+	<div class="open"></div>
+	<div class="mouth"></div>
+
+	<div class="eye eye1">
+  		<div class="pupil"></div>
+	</div>
+	
+	<div class="eye eye2">
+  		<div class="pupil"></div>
+	</div>
+	
+	<script>
+		var pupilsHTMLCollection = document.getElementsByClassName('pupil');
+		var pupilsArray = Array.from(pupilsHTMLCollection);
+		
+		var input={
+		  mouseX:{
+			start:0,
+			end: window.innerWidth,
+			current:0,
+		  },
+		  mouseY:{
+			start:0,
+			end: window.innerHeight,
+			current:0,
+		  }
+		};
+		input.mouseX.range = input.mouseX.end - input.mouseX.start;
+		input.mouseY.range = input.mouseY.end - input.mouseY.start;
+
+		var output ={
+		  x: {
+			start: -70,
+			end: 70,
+			current:0,
+		  },
+		  y: {
+			start: -70,
+			end: 70,
+			current:0,
+		  },
+		};
+
+		output.x.range = output.x.end - output.x.start;
+		output.y.range = output.y.end - output.y.start;
+
+
+
+		var handleMouseMove = function (event) {
+		  input.mouseX.current = event.clientX;
+		  input.mouseX.fraction = (input.mouseX.current - input.mouseX.start) /  input.mouseX.range; 
+		  input.mouseY.current = event.clientY;
+		  input.mouseY.fraction = (input.mouseY.current - input.mouseY.start) /  input.mouseY.range;
+		  output.x.current = output.x.start + (input.mouseX.fraction * output.x.range);
+		  output.y.current = output.y.start + (input.mouseY.fraction * output.y.range);
+
+		  pupilsArray.forEach(function (pupil, k){
+			pupil.style.transform = 'translate('+output.x.current+'px, '+output.y.current+'px)';
+		  });
+
+		  console.log('output.x.current',  output.x.current);
+		}
+
+		var handleResize = function () {
+		  input.mouseX.end = window.innerWidth;
+		  input.mouseX.range = input.mouseX.end - input.mouseX.start;
+
+		  input.mouseY.end = window.innerHeight;
+		  input.mouseY.range = input.mouseY.end - input.mouseY.start;
+		}
+
+		window.addEventListener('mousemove', handleMouseMove);
+		window.addEventListener('resize', handleResize);
+
+	</script>
+	
+</body>
+</html>
